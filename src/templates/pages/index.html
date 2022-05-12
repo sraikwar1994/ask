@@ -3,6 +3,9 @@
 
     </head>
     <body>
-        Hello World
+        User's list
+        {% for user in users %}
+        <p>{{user.username}} | {{user.email}}</p>
+        {% endfor %}
     </body>
 </html>
