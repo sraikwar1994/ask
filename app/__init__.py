@@ -7,9 +7,8 @@ app.config.from_object(os.environ.get("APP_SETTINGS", "config.DevelopmentConfig"
 
 
 def register_blueprints(application):
-    from app.core import views
-
-    application.register_blueprint(blueprint=views.bp)
+    from app.core.urls import bp as core_bp
+    application.register_blueprint(blueprint=core_bp)
 
 
 def migrate_db(application):
