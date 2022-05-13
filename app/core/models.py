@@ -1,4 +1,4 @@
-from app import db
+from app.db import db
 
 
 class User(db.Model):
@@ -7,4 +7,4 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return "<User %r>" % self.username
