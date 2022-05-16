@@ -1,13 +1,18 @@
 import os
 
 from flask import Flask, render_template
+from flask_marshmallow import Marshmallow
+from flask_restful import Api
 
 app = Flask(__name__, template_folder="templates")
 app.config.from_object(os.environ.get("APP_SETTINGS", "config.DevelopmentConfig"))
+ma = Marshmallow(app)
+api = Api(app)
 
 
 def register_blueprints(application):
     from app.core.urls import bp as core_bp
+
     application.register_blueprint(blueprint=core_bp)
 
 
