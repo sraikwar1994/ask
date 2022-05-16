@@ -9,4 +9,4 @@ class LandingPage(View):
 
 class UsersPage(View):
     def dispatch_request(self):
-        return render_template("pages/manage_user.html")
+        return render_template("pages/core/manage_user.html")
