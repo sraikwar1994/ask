@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Index{% endblock %}
 {% block head %}
-    <link href="/static/assets/css/index.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/index.css') }}" rel="stylesheet">
 {% endblock head %}
 {% block content %}
   <div class="main">
@@ -34,6 +34,6 @@
       </div>
     </div>
   </div>
-    <script src="/static/assets/js/index.js"></script>
-    <script src="/static/assets/js/sweetalert2.all.min.js"></script>
+    <script src="{{ url_for('static', filename='assets/js/index.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/sweetalert2.all.min.js')}}"></script>
 {% endblock %}
