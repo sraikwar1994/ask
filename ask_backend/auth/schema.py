@@ -1,4 +1,4 @@
-from app import ma
+from ask_backend.app import ma
 
 
 class UserSchema(ma.Schema):

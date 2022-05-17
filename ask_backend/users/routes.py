@@ -1,9 +1,17 @@
-from flask import request
+from flask import Blueprint, render_template, request
+from flask.views import View
 from flask_restful import Resource
 
-from app import db
-from app.core.models import User
-from app.core.schema import UserSchema
+from ask_backend import app
+from ask_backend.models import User
+from ask_backend.users.schema import UserSchema
+
+user_bp = Blueprint("users", __name__)
+
+
+class UsersPage(View):
+    def dispatch_request(self):
+        return render_template("pages/core/manage_user.html")
 
 
 class UserApiView(Resource):
@@ -26,8 +34,8 @@ class UserApiView(Resource):
             "lastname": args.get("lastname"),
         }
         user = User(**data)
-        db.session.add(user)
-        db.session.commit()
+        app.db.session.add(user)
+        app.db.session.commit()
         return {
             "status": True,
         }, 201
@@ -40,7 +48,7 @@ class UserApiView(Resource):
             user.email = args.get("email")
             user.firstname = args.get("firstname")
             user.lastname = args.get("lastname")
-            db.session.commit()
+            app.db.session.commit()
             user_schema = UserSchema()
             return user_schema.dumps(user), 200
         else:
@@ -50,8 +58,31 @@ class UserApiView(Resource):
         args = request.json
         user = User.query.get(args.get("id"))
         if user:
-            db.session.delete(user)
-            db.session.commit()
+            app.db.session.delete(user)
+            app.db.session.commit()
             return {"status": True}, 200
         else:
             return {"status": False}, 404
+
+
+"""
+Page Views url rules
+"""
+user_bp.add_url_rule("/users/", view_func=UsersPage.as_view("users"))
+
+"""
+API url rules
+"""
+user_bp.add_url_rule("/api/users/", view_func=UserApiView.as_view("user_api"))
+user_bp.add_url_rule(
+    "/api/users/<user_id>", view_func=UserApiView.as_view("get_user_api")
+)
+user_bp.add_url_rule(
+    "/api/users/create/", view_func=UserApiView.as_view("create_user_api")
+)
+user_bp.add_url_rule(
+    "/api/users/delete/", view_func=UserApiView.as_view("delete_user_api")
+)
+user_bp.add_url_rule(
+    "/api/users/update/", view_func=UserApiView.as_view("update_user_api")
+)
