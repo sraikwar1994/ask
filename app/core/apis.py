@@ -1,9 +1,9 @@
 from flask import request
 from flask_restful import Resource
 
+from app import db
 from app.core.models import User
 from app.core.schema import UserSchema
-from app.db import db
 
 
 class UserApiView(Resource):

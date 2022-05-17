@@ -4,13 +4,15 @@ from app import app
 from app.core.apis import UserApiView
 from app.core.views import LandingPage, UsersPage
 
-bp = Blueprint("/", __name__, url_prefix="/")
+core_bp = Blueprint("/", __name__)
 
 """
 Page view urls
 """
-app.add_url_rule("/", view_func=LandingPage.as_view("landing_page"))
-app.add_url_rule("/users/", view_func=UsersPage.as_view("users"))
+app.add_url_rule(
+    "/", "landing_page", LandingPage.as_view("landing_page"), methods=["GET"]
+)
+app.add_url_rule("/users/", "users", UsersPage.as_view("users"))
 
 """
 API view urls
