@@ -4,21 +4,22 @@ from flask import Flask
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_restful import Api
-from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config.from_object(
     os.environ.get("APP_SETTINGS", "ask_backend.config.DevelopmentConfig")
 )
-db = SQLAlchemy(app)
 ma = Marshmallow(app)
 api = Api(app)
 
 """
 Database initialization and Migration
 """
+from ask_backend.base_models import db
+
 db.init_app(app)
-Migrate(app, db)
+migrate = Migrate()
+migrate.init_app(app=app, db=db)
 
 
 """
