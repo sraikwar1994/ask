@@ -1,4 +1,7 @@
-from ask_backend.app import ma
+from ask_backend import app
+from flask_marshmallow import Marshmallow
+
+ma = Marshmallow(app)
 
 
 class UserSchema(ma.Schema):

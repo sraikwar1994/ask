@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request
 from flask.views import View
 from flask_restful import Resource
 
-from ask_backend import app
+from ask_backend.base_models import db
 from ask_backend.users.models import User
 from ask_backend.users.schema import UserSchema
 
@@ -34,8 +34,8 @@ class UserApiView(Resource):
             "lastname": args.get("lastname"),
         }
         user = User(**data)
-        app.db.session.add(user)
-        app.db.session.commit()
+        db.session.add(user)
+        db.session.commit()
         return {
             "status": True,
         }, 201
@@ -48,7 +48,7 @@ class UserApiView(Resource):
             user.email = args.get("email")
             user.firstname = args.get("firstname")
             user.lastname = args.get("lastname")
-            app.db.session.commit()
+            db.session.commit()
             user_schema = UserSchema()
             return user_schema.dumps(user), 200
         else:
@@ -58,8 +58,8 @@ class UserApiView(Resource):
         args = request.json
         user = User.query.get(args.get("id"))
         if user:
-            app.db.session.delete(user)
-            app.db.session.commit()
+            db.session.delete(user)
+            db.session.commit()
             return {"status": True}, 200
         else:
             return {"status": False}, 404
