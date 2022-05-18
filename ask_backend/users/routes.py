@@ -3,7 +3,7 @@ from flask.views import View
 from flask_restful import Resource
 
 from ask_backend import app
-from ask_backend.models import User
+from ask_backend.users.models import User
 from ask_backend.users.schema import UserSchema
 
 user_bp = Blueprint("users", __name__)
