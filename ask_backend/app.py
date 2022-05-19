@@ -11,7 +11,7 @@ def create_app(config="config.DevelopmentConfig"):
     """
 
     app = Flask(__name__)
-    if config == "config.DevelopmentConfig":
+    if config == "ask_backend.config.DevelopmentConfig":
         app.config.from_object(config)
     else:
         app.config.from_pyfile("unittest_settings.py")
@@ -31,5 +31,6 @@ def create_app(config="config.DevelopmentConfig"):
     app.register_blueprint(errors_bp)
     app.register_blueprint(core_bp)
     app.register_blueprint(user_bp)
+    app.app_context().push()
 
     return app
