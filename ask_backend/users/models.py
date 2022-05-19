@@ -1,4 +1,4 @@
-from ask_backend.base_models import db
+from ask_backend.app import db
 
 
 class User(db.Model):

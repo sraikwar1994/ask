@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_migrate import Migrate
+from .database import db, migrate
 
 
 def create_app(config="config.DevelopmentConfig"):
@@ -13,21 +13,12 @@ def create_app(config="config.DevelopmentConfig"):
     if config == "config.DevelopmentConfig":
         app.config.from_object(config)
     else:
-        app.config.from_mapping(
-            DEBUG=True,
-            TESTING=True,
-            SECRET_KEY='dev',
-            SQLALCHEMY_DATABASE_URI="postgresql://flask_user:flask_password@localhost:5432/test_db",
-            SQLALCHEMY_TRACK_MODIFICATIONS=True,
-        )
+        app.config.from_pyfile("unittest_settings.py")
 
     """
     Database initialization and Migration
     """
-    from flask_sqlalchemy import SQLAlchemy
-    db = SQLAlchemy(app)
     db.init_app(app)
-    migrate = Migrate()
     migrate.init_app(app=app, db=db)
     """
     Register Blueprints
